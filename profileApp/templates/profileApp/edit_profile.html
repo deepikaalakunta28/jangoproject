@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'profileApp/css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="edit-wrapper">
+
+    <div class="edit-card">
+        <h2>Edit Profile</h2>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label>Profile Photo</label>
+            {{ form.profile_image }}
+
+            <label>Bio</label>
+            {{ form.bio }}
+
+            <label>Website</label>
+            {{ form.website }}
+
+            <label>Location</label>
+            {{ form.location }}
+
+            <div class="edit-actions">
+                <button type="submit" class="btn-primary">Save Changes</button>
+                <a href="{% url 'profile' request.user.username %}" class="btn-light">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}

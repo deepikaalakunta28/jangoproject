@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Delete Board</h2>
+
+<p>Deleting <strong>{{ board.name }}</strong> will remove all pins in it.</p>
+
+<form method="POST">
+  {% csrf_token %}
+  <button type="submit" style="background:#e60023;color:#fff;padding:10px 18px;border-radius:8px;">
+    Yes — Delete Board
+  </button>
+
+  <a href="{% url 'board_detail' board.id %}">Cancel</a>
+</form>
+{% endblock %}

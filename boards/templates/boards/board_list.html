@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Boards{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/boards_new.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="boards-wrapper">
+
+  <h2 class="page-title">My Boards</h2>
+
+  <div class="board-grid">
+
+    <!-- Create Board Card -->
+    <a href="{% url 'create_board' %}" class="board-card create-card">
+      <div class="plus-icon">+</div>
+      <p>Create Board</p>
+    </a>
+
+    <!-- Existing Boards -->
+    {% for board in boards %}
+    <a href="{% url 'board_detail' board.id %}" class="board-card">
+      <div class="board-cover"></div>
+      <div class="board-footer">
+        <h3>{{ board.title }}</h3>
+        <span>{{ board.pins.count }} Pins</span>
+      </div>
+    </a>
+    {% empty %}
+    <p class="no-boards-text">No boards yet — create your first one!</p>
+    {% endfor %}
+
+  </div>
+
+</div>
+
+{% endblock %}

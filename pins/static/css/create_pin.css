@@ -1,0 +1,174 @@
+.pin-form-wrapper {
+    max-width: 520px;
+    margin: 40px auto;
+    padding: 28px 26px;
+    background: #fff;
+    border-radius: 22px;
+    box-shadow: 0 12px 28px rgba(0,0,0,.12);
+}
+
+.pin-form-wrapper h2 {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+/* Form container */
+.pin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* Labels */
+.form-group label {
+    font-weight: 600;
+    color: #444;
+    display: block;
+    margin-bottom: 6px;
+}
+
+/* Inputs */
+.pin-form input,
+.pin-form textarea,
+.pin-form select {
+    width: 100%;
+    border-radius: 12px;
+    border: 2px solid #f4d2d6;
+    padding: 10px 12px;
+    background: #fff7f8;
+    outline: none;
+    transition: .22s;
+}
+
+/* Focus State */
+.pin-form input:focus,
+.pin-form textarea:focus,
+.pin-form select:focus {
+    border-color: #e60023;
+    background: #fff;
+}
+
+/* Textarea */
+.pin-form textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+/* Submit button */
+.btn-primary {
+    padding: 12px;
+    border-radius: 30px;
+    border: none;
+    background: #e60023;
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: .25s;
+}
+
+.btn-primary:hover {
+    background: #ad081b;
+    transform: translateY(-2px);
+}
+
+/* Secondary button */
+.btn-secondary {
+    text-align: center;
+    display: block;
+    padding: 10px;
+    border-radius: 30px;
+    background: #f3f3f3;
+    color: #555;
+    text-decoration: none;
+    transition: .25s;
+}
+
+.btn-secondary:hover {
+    background: #e6e6e6;
+}
+
+
+.pin-form {
+  max-width: 480px;
+  margin-top: 18px;
+  padding: 18px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(0,0,0,.08);
+}
+
+.pin-form input,
+.pin-form textarea {
+  width: 100%;
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+
+
+
+
+.pin-form-wrapper {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 25px 30px;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 10px 28px rgba(0,0,0,.09);
+}
+
+.pin-form-wrapper h2 {
+  margin-bottom: 12px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.pin-form .form-group {
+  margin-bottom: 14px;
+}
+
+.pin-form label {
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.pin-form input,
+.pin-form textarea,
+.pin-form select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  outline: none;
+}
+
+.pin-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.btn-primary {
+  background: #e60023;
+  border: none;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: #cc001f;
+}
+
+.btn-secondary {
+  margin-left: 10px;
+  color: #555;
+  text-decoration: none;
+}

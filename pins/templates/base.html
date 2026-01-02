@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pinterest Clone</title>
+
+    <link rel="stylesheet" href="{% static 'css/base.css' %}?v=3">
+
+    {% block extra_css %}{% endblock %}
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="{% static 'images/pinterest_logo.png' %}" alt="Pinterest Logo" class="sidebar-logo">
+        </div>
+
+        <nav class="nav-links">
+            <a href="/home" class="nav-item active">
+                <i class="fa-solid fa-house"></i><span>Home</span>
+            </a>
+
+            <a href="/pins/create/" class="nav-item">
+                <i class="fa-solid fa-plus"></i><span>Create</span>
+            </a>
+
+            <a href="{% url 'boards_list' %}" class="nav-item">
+                <i class="fa-solid fa-table-columns"></i><span>Boards</span>
+            </a>
+
+            <a href="/profile/" class="nav-item">
+                <i class="fa-solid fa-user"></i><span>Profile</span>
+            </a>
+        </nav>
+    </aside>
+
+    <header class="topbar">
+        <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+
+            <form action="{% url 'search_pins' %}" method="get" class="search-form">
+                <input
+                    type="text"
+                    name="q"
+                    class="search-input"
+                    placeholder="Search for ideas"
+                    value="{{ request.GET.q|default:'' }}"
+                >
+            </form>
+        </div>
+
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="logout">Log Out</button>
+        </form>
+    </header>
+
+    <main class="content">
+        {% block content %}{% endblock %}
+    </main>
+
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

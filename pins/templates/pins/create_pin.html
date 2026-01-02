@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Create Pin{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/create_pin.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="pin-form-wrapper">
+
+  <h2>Create Pin</h2>
+
+  <form method="POST" enctype="multipart/form-data" class="pin-form">
+    {% csrf_token %}
+
+    <div class="form-group">
+      <label>Title</label>
+      {{ form.title }}
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+      {{ form.description }}
+    </div>
+
+    <div class="form-group">
+      <label>Image</label>
+      {{ form.image }}
+    </div>
+
+    <!-- If pin is being created from a specific board -->
+    {% if board %}
+      <input type="hidden" name="board" value="{{ board.id }}">
+      <p class="board-lock">
+        📌 This pin will be added to:
+        <strong>{{ board.name }}</strong>
+      </p>
+
+    <!-- Normal create page (user chooses board) -->
+    {% else %}
+      <div class="form-group">
+        <label>Select Board</label>
+        {{ form.board }}
+      </div>
+    {% endif %}
+
+    <button type="submit" class="btn-primary">Upload Pin</button>
+    <a href="{% url 'home' %}" class="btn-secondary">Cancel</a>
+
+  </form>
+
+</div>
+
+{% endblock %}

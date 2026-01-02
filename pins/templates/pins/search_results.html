@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Search: {{ query }}{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+
+  <h2>Results for: <strong>{{ query }}</strong></h2>
+
+  {% if pins %}
+  <div class="pin-grid">
+    {% for pin in pins %}
+      <a href="{% url 'pin_detail' pin.id %}" class="pin-card">
+        <img src="{{ pin.image.url }}">
+      </a>
+    {% endfor %}
+  </div>
+
+  {% else %}
+  <p>No results found.</p>
+  {% endif %}
+
+</div>
+{% endblock %}

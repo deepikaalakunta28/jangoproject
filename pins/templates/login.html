@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Pinterest Clone</title>
+  <link rel="stylesheet" href="{% static 'css/auth.css' %}?v=2">
+</head>
+
+<body>
+
+  <div class="auth-container">
+    <div class="auth-box">
+      <h2>Login</h2>
+      <form method="POST" action="">
+        {% csrf_token %}
+        <div class="input-group">
+          <label for="username">Username</label>
+          <input type="text" name="username" id="username" placeholder="Enter username" required autocomplete="off">
+        </div>
+
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" placeholder="Enter password" required
+            autocomplete="new-password">
+        </div>
+
+        <button type="submit" class="btn">Login</button>
+      </form>
+
+      <p class="bottom-text">
+        Don’t have an account? <a href="{% url 'register' %}">Register</a>
+      </p>
+    </div>
+  </div>
+
+</body>
+
+</html>

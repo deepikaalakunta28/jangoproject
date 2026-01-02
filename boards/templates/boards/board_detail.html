@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ board.name }} | Board{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'boards/css/board_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="page-wrapper">
+
+  <div class="board-header">
+
+    <div class="board-info">
+      <h1>{{ board.name }}</h1>
+
+      <p class="meta">
+        {{ pins.count }} Pins · Created by {{ board.user.username }}
+      </p>
+
+      {% if board.description %}
+      <p class="desc">{{ board.description }}</p>
+      {% endif %}
+    </div>
+
+    {% if request.user == board.user %}
+    <div class="actions">
+      <a href="{% url 'create_pin' %}?board={{ board.id }}" class="btn-primary">
+        ➕ Add Pin
+      </a>
+
+      <a href="{% url 'delete_board' board.id %}" class="btn-danger"
+        onclick="return confirm('Delete this board and all its pins?');">
+        🗑 Delete
+      </a>
+
+    </div>
+    {% endif %}
+  </div>
+
+
+  {% if pins %}
+  <div class="pin-grid">
+    {% for pin in pins %}
+    <a href="{% url 'pin_detail' pin.id %}" class="pin-card">
+      <img src="{{ pin.image.url }}" alt="{{ pin.title }}">
+    </a>
+    {% endfor %}
+  </div>
+
+  {% else %}
+  <div class="empty-state">
+    <h3>No Pins Yet</h3>
+    <p>Add pins to start filling this board.</p>
+
+    {% if request.user == board.user %}
+    <a href="{% url 'create_pin' board.id %}" class="btn-primary">
+      ➕ Add a Pin
+    </a>
+    {% endif %}
+  </div>
+  {% endif %}
+
+</div>
+
+{% endblock %}

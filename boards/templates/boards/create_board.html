@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Create Board{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/create_board.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="form-wrapper">
+
+    <div class="form-card">
+
+        <h2>Create Board</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label>Title:</label>
+            {{ form.title }}
+
+            <label>Description:</label>
+            {{ form.description }}
+
+            <label class="private-check">
+                {{ form.is_private }}
+                <span>Private Board</span>
+            </label>
+
+
+            <div class="button-row">
+                <a href="{% url 'boards_list' %}" class="cancel-btn">Cancel</a>
+                <button type="submit" class="create-btn">Create</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

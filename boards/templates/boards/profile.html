@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>{{ profile_user.username }}'s Boards</h2>
+
+  {% if boards %}
+    <ul>
+      {% for board in boards %}
+        <li>
+          <a href="{% url 'board_detail' board.id %}">{{ board.title }}</a>
+          {% if board.is_private %}<span style="color: red;">(Private)</span>{% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No boards to display.</p>
+  {% endif %}
+{% endblock %}
