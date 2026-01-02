@@ -54,6 +54,7 @@
 
 
         <!-- ⭐ MOVE PIN -->
+        <!-- ⭐ MOVE PIN -->
         {% if request.user == pin.user %}
         <div class="move-pin-box">
 
@@ -63,6 +64,7 @@
             <label class="move-label">Move to board</label>
 
             <div class="move-row">
+
               <select name="board_id" class="move-select" required>
                 {% for b in user_boards %}
                 <option value="{{ b.id }}" {% if pin.board_id == b.id %}selected{% endif %}>
@@ -73,13 +75,13 @@
                 {% endfor %}
               </select>
 
-
               <button type="submit" class="btn-move">Move</button>
             </div>
 
           </form>
         </div>
         {% endif %}
+
         <!-- ⭐ END MOVE -->
 
 
@@ -95,17 +97,32 @@
 
         <!-- COMMENTS -->
         <div class="pin-comments">
+
           <h3>Comments</h3>
 
-          <ul>
+          <div class="comments-box">
+            {% if pin.comments.all %}
             {% for comment in pin.comments.all %}
-            <li><strong>{{ comment.user.username }}</strong>: {{ comment.text }}</li>
-            {% empty %}
-            <li>No comments yet.</li>
-            {% endfor %}
-          </ul>
+            <div class="comment-item">
 
-          <form action="{% url 'add_comment' pin.id %}" method="POST">
+              <div class="avatar">
+                {{ comment.user.username|slice:":1"|upper }}
+              </div>
+
+              <div class="comment-bubble">
+                <strong>{{ comment.user.username }}</strong>
+                <p>{{ comment.text }}</p>
+                <span class="time">{{ comment.created_at|timesince }} ago</span>
+              </div>
+
+            </div>
+            {% endfor %}
+            {% else %}
+            <p class="no-comments">No comments yet. Be the first!</p>
+            {% endif %}
+          </div>
+
+          <form action="{% url 'add_comment' pin.id %}" method="POST" class="comment-form">
             {% csrf_token %}
             <input type="text" name="comment" placeholder="Add a comment..." required>
             <button type="submit">
@@ -113,9 +130,8 @@
             </button>
           </form>
 
-          <!-- (LIKE BUTTON REMOVED FROM HERE) -->
-
         </div>
+
 
       </div>
     </div>
