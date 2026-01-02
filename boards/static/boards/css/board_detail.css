@@ -14,26 +14,57 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 5px 4px 12px;
-  border-bottom: 1px solid #eee;
+  gap: 18px;
+  margin-bottom: 18px;
 }
 
 .board-info h1 {
-  margin: 0;
-  font-size: 26px;
-  font-weight: 800;
+  font-size: 22px;
+  margin-bottom: 4px;
 }
 
 .meta {
-  margin: 4px 0;
-  color: #666;
   font-size: 13px;
+  color: #777;
 }
 
 .desc {
-  margin-top: 4px;
-  font-size: 14px;
-  color: #444;
+  margin-top: 6px;
+  max-width: 700px;
+  line-height: 1.5;
+  color: #555;
+}
+
+.board-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: #e60023;
+  color: white;
+  padding: 8px 18px;
+  border-radius: 25px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  background: #c5001f;
+}
+
+.btn-outline-danger {
+  padding: 8px 18px;
+  border-radius: 25px;
+  border: 1px solid #ffb3b3;
+  background: #fff5f5;
+  text-decoration: none;
+  color: #d00000;
+}
+
+.btn-outline-danger:hover {
+  background: #ffe5e5;
 }
 
 

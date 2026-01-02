@@ -133,18 +133,28 @@ def delete_pin(request, pk):
         pin.delete()
     return redirect('home')
 
+from django.shortcuts import render, get_object_or_404
+from boards.models import Board
+from .models import Pin
+
 def pin_detail(request, pin_id):
     pin = get_object_or_404(Pin, id=pin_id)
-    other_pins = Pin.objects.exclude(id=pin.id)[:10]
 
-    liked_by_user = pin.likes.filter(user=request.user).exists() if request.user.is_authenticated else False
+    user_boards = Board.objects.filter(user=request.user)
 
-    context = {
-        'pin': pin,
-        'other_pins': other_pins,
-        'liked_by_user': liked_by_user,
-    }
-    return render(request, 'pins/pin_detail.html', context)
+    other_pins = Pin.objects.filter(
+        board=pin.board
+    ).exclude(id=pin.id)[:6]
+
+    # 👇 ADD THIS
+    user_liked = pin.likes.filter(user=request.user).exists()
+
+    return render(request, "pins/pin_detail.html", {
+        "pin": pin,
+        "other_pins": other_pins,
+        "user_boards": user_boards,
+        "user_liked": user_liked,   # 👈 pass flag
+    })
 
 
 @login_required
@@ -162,26 +172,27 @@ def add_comment(request, pin_id):
     return redirect('pin_detail', pin_id=pin_id)
 
 
+from django.http import JsonResponse
+from .models import Like
+
 @login_required
 def toggle_like(request, pin_id):
     pin = get_object_or_404(Pin, id=pin_id)
     user = request.user
 
-    existing_like = Like.objects.filter(pin=pin, user=user).first()
+    like, created = Like.objects.get_or_create(pin=pin, user=user)
 
-    if existing_like:
-        existing_like.delete()
+    if not created:
+        like.delete()
         liked = False
     else:
-        Like.objects.create(pin=pin, user=user)
         liked = True
 
-    pin.refresh_from_db()
-
     return JsonResponse({
-        'liked': liked,
-        'likes_count': pin.likes.count()
+        "liked": liked,
+        "likes_count": pin.likes.count()
     })
+
 
 
 from django.http import JsonResponse
@@ -233,13 +244,21 @@ from django.contrib.auth.decorators import login_required
 from .forms import PinForm
 from .models import Board
 
+ 
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from boards.models import Board
+from .forms import PinForm
+
+
 @login_required
 def create_pin(request, board_id=None):
-    """
-    Works in two ways:
-    /pins/create/                → user chooses board from dropdown
-    /pins/create/7/              → board auto-selected
-    """
+    board = None
+
+    # If board_id is provided (coming from "Add Pin" button on a board)
+    if board_id:
+        board = get_object_or_404(Board, id=board_id, user=request.user)
 
     if request.method == "POST":
         form = PinForm(request.POST, request.FILES)
@@ -248,21 +267,25 @@ def create_pin(request, board_id=None):
             pin = form.save(commit=False)
             pin.user = request.user
 
-            # If board_id is passed → force assign
-            if board_id:
-                pin.board = Board.objects.get(id=board_id)
+            # Force-assign to board if opened from board page
+            if board:
+                pin.board = board
 
             pin.save()
-            return redirect("home")
+            return redirect("board_detail", board.id if board else pin.board.id)
 
     else:
         form = PinForm()
 
-        # Auto-select board in form if board_id exists
-        if board_id:
-            form.fields["board"].initial = board_id
+        # Pre-select the board in dropdown
+        if board:
+            form.fields["board"].initial = board.id
 
-    return render(request, "pins/create_pin.html", {"form": form})
+    return render(
+        request,
+        "pins/create_pin.html",
+        {"form": form, "board": board},
+    )
 
 
 from django.db.models import Q

@@ -37,3 +37,18 @@ class Like(models.Model):
 
     def __str__(self):
         return f"{self.user.username} liked {self.pin.title}"
+
+
+
+from django.db import models
+from django.contrib.auth.models import User
+
+class Like(models.Model):
+    pin = models.ForeignKey("Pin", related_name="likes", on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ("pin", "user")  # prevents double-likes
+
+    def __str__(self):
+        return f"{self.user} likes {self.pin}"

@@ -194,8 +194,9 @@
 }
 
 .move-label {
-  font-size: 13px;
-  color: #666;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
   margin-bottom: 6px;
   display: block;
 }
@@ -209,13 +210,14 @@
 /* Styled dropdown */
 .move-select {
   padding: 10px 12px;
-  border-radius: 12px;
-  border: 1px solid #ccc;
-  background: #fff;
-  font-size: 14px;
   min-width: 220px;
+  background: #ffffff;
+  border: 1px solid #d0d0d0;
+  border-radius: 12px;
+  font-size: 14px;
+  color: #111;
   cursor: pointer;
-  transition: 0.2s;
+  appearance: none;
 }
 
 .move-select:hover {
@@ -224,21 +226,81 @@
 
 .move-select:focus {
   outline: none;
-  border-color: #000;
+  border-color: #e60023;
+  box-shadow: 0 0 0 2px rgba(230, 0, 35, 0.15);
 }
 
 /* Move button */
 .btn-move {
-  padding: 10px 16px;
-  border-radius: 20px;
-  border: none;
-  background: #111;
+  background: #000;
   color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 18px;
+  font-size: 13px;
   cursor: pointer;
-  font-size: 14px;
-  transition: .2s;
 }
 
 .btn-move:hover {
   background: #333;
+}
+.move-select {
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  background: #fff;
+}
+
+.btn-move {
+  margin-left: 10px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  background: black;
+  color: white;
+  border: none;
+}
+
+
+.move-select {
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #333;
+  width: 230px;
+  cursor: pointer;
+}
+
+.move-select option {
+  background: #fff;
+  color: #000;
+}
+
+.btn-move {
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: none;
+  background: #111;
+  color: #fff;
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+
+.like-btn i {
+  transition: .2s ease-in-out;
+}
+
+.like-btn i.liked {
+  color: #ff2b4a;
+  transform: scale(1.2);
+}
+
+
+.move-select {
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 8px;
+  min-width: 240px;
 }

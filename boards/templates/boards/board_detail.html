@@ -26,18 +26,18 @@
     </div>
 
     {% if request.user == board.user %}
-    <div class="actions">
-      <a href="{% url 'create_pin' %}?board={{ board.id }}" class="btn-primary">
+    <div class="board-actions">
+      <a href="{% url 'create_pin_for_board' board.id %}" class="btn-primary">
         ➕ Add Pin
       </a>
 
-      <a href="{% url 'delete_board' board.id %}" class="btn-danger"
+      <a href="{% url 'delete_board' board.id %}" class="btn-outline-danger"
         onclick="return confirm('Delete this board and all its pins?');">
         🗑 Delete
       </a>
-
     </div>
     {% endif %}
+
   </div>
 
 

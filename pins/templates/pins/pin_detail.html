@@ -5,15 +5,14 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/pindetail.css' %}">
-<link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
 
 {% block content %}
 
 <div class="pin-detail-wrapper">
 
-  <!-- LEFT SIDE -->
+  <!-- LEFT -->
   <div class="pin-left">
     <div class="pin-card">
 
@@ -23,14 +22,20 @@
 
       <div class="pin-info-box">
 
-        <!-- ACTION BUTTONS -->
+        <!-- ACTIONS -->
         <div class="pin-actions">
 
           <!-- SAVE -->
           <button class="btn-action save-btn {% if user in pin.saved_by.all %}saved{% endif %}"
-                  data-pin-id="{{ pin.id }}">
+            data-pin-id="{{ pin.id }}">
             <i class="fa-solid fa-thumbtack"></i>
             {% if user in pin.saved_by.all %}Saved{% else %}Save{% endif %}
+          </button>
+
+          <!-- LIKE -->
+          <button class="btn-action like-btn" data-pin-id="{{ pin.id }}">
+            <i class="fa-solid fa-heart {% if user_liked %}liked{% endif %}"></i>
+            <span class="like-count">{{ pin.likes.count }}</span>
           </button>
 
           <!-- DOWNLOAD -->
@@ -38,18 +43,17 @@
             <i class="fa-solid fa-download"></i>
           </a>
 
-          <!-- DELETE (ONLY OWNER) -->
+          <!-- DELETE -->
           {% if request.user.id == pin.user.id %}
-          <a href="{% url 'delete_pin' pin.id %}"
-             class="btn-action delete-btn"
-             onclick="return confirm('Delete this pin?');">
+          <a href="{% url 'delete_pin' pin.id %}" class="btn-action delete-btn"
+            onclick="return confirm('Delete this pin?');">
             <i class="fa-solid fa-trash"></i>
           </a>
           {% endif %}
         </div>
 
 
-        <!-- ⭐ MOVE PIN TO ANOTHER BOARD -->
+        <!-- ⭐ MOVE PIN -->
         {% if request.user == pin.user %}
         <div class="move-pin-box">
 
@@ -59,15 +63,16 @@
             <label class="move-label">Move to board</label>
 
             <div class="move-row">
-
               <select name="board_id" class="move-select" required>
-                {% for b in request.user.boards.all %}
-                  <option value="{{ b.id }}"
-                    {% if pin.board.id == b.id %}selected{% endif %}>
-                    {{ b.name }}
-                  </option>
+                {% for b in user_boards %}
+                <option value="{{ b.id }}" {% if pin.board_id == b.id %}selected{% endif %}>
+                  {{ b.title }}
+                </option>
+                {% empty %}
+                <option disabled>No boards found</option>
                 {% endfor %}
               </select>
+
 
               <button type="submit" class="btn-move">Move</button>
             </div>
@@ -83,7 +88,7 @@
           <span class="username">{{ pin.user.username }}</span>
         </div>
 
-        <!-- TITLE + DESCRIPTION -->
+        <!-- TEXT -->
         <h2>{{ pin.title }}</h2>
         <p>{{ pin.description }}</p>
 
@@ -107,6 +112,9 @@
               <i class="fa-solid fa-paper-plane"></i>
             </button>
           </form>
+
+          <!-- (LIKE BUTTON REMOVED FROM HERE) -->
+
         </div>
 
       </div>
@@ -114,7 +122,7 @@
   </div>
 
 
-  <!-- RIGHT SIDE -->
+  <!-- RIGHT -->
   <div class="pin-right">
     <h3>More like this</h3>
 
@@ -135,27 +143,60 @@
 
 
 {% block extra_js %}
+
+<!-- SAVE -->
 <script>
-document.querySelectorAll(".save-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
+  document.querySelectorAll(".save-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
 
-    const csrftoken = document.querySelector("[name=csrfmiddlewaretoken]").value;
+      const csrftoken = document.querySelector("[name=csrfmiddlewaretoken]").value;
 
-    fetch(`/save/${btn.dataset.pinId}/`, {
-      method: "POST",
-      headers: { "X-CSRFToken": csrftoken }
-    })
-    .then(r => r.json())
-    .then(data => {
-      if (data.saved) {
-        btn.classList.add("saved");
-        btn.innerHTML = '<i class="fa-solid fa-thumbtack"></i> Saved';
-      } else {
-        btn.classList.remove("saved");
-        btn.innerHTML = '<i class="fa-solid fa-thumbtack"></i> Save';
-      }
+      fetch(`/save/${btn.dataset.pinId}/`, {
+        method: "POST",
+        headers: { "X-CSRFToken": csrftoken }
+      })
+        .then(r => r.json())
+        .then(data => {
+          if (data.saved) {
+            btn.classList.add("saved");
+            btn.innerHTML = '<i class="fa-solid fa-thumbtack"></i> Saved';
+          } else {
+            btn.classList.remove("saved");
+            btn.innerHTML = '<i class="fa-solid fa-thumbtack"></i> Save';
+          }
+        });
     });
   });
-});
 </script>
+
+
+<!-- LIKE -->
+<script>
+  document.querySelectorAll(".like-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+
+      const csrftoken = document.querySelector("[name=csrfmiddlewaretoken]").value;
+
+      fetch(`/pin/${btn.dataset.pinId}/like/`, {
+        method: "POST",
+        headers: { "X-CSRFToken": csrftoken }
+      })
+        .then(r => r.json())
+        .then(data => {
+
+          const icon = btn.querySelector("i");
+          const count = btn.querySelector(".like-count");
+
+          if (data.liked) {
+            icon.classList.add("liked");
+          } else {
+            icon.classList.remove("liked");
+          }
+
+          count.textContent = data.likes_count;
+        });
+    });
+  });
+</script>
+
 {% endblock %}

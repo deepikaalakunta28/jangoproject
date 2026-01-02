@@ -24,5 +24,8 @@ urlpatterns = [
     path("create/", views.create_pin, name="create_pin"),
     path("create/<int:board_id>/", views.create_pin, name="create_pin_board"),
     path("pin/<int:pin_id>/move/", views.move_pin, name="move_pin"),
+    path("create/<int:board_id>/", views.create_pin, name="create_pin_for_board"),
+    path("pin/<int:pin_id>/like/", views.toggle_like, name="toggle_like"),
+
 
 ]
