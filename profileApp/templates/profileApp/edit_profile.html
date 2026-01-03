@@ -1,41 +1,44 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'profileApp/css/profile.css' %}">
+<link rel="stylesheet" href="{% static 'profileApp/edit_profile.css' %}">
 {% endblock %}
 
 {% block content %}
 
-<div class="edit-wrapper">
+<h2 class="title">Edit Profile</h2>
 
-    <div class="edit-card">
-        <h2>Edit Profile</h2>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="profile-photo-wrapper">
 
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
+    {% if profile.photo %}
+        <img src="{{ profile.photo.url }}" class="profile-photo-preview">
+    {% else %}
+        <div class="profile-photo-placeholder">
+            {{ request.user.username|first|upper }}
+        </div>
+    {% endif %}
 
-            <label>Profile Photo</label>
-            {{ form.profile_image }}
-
-            <label>Bio</label>
-            {{ form.bio }}
-
-            <label>Website</label>
-            {{ form.website }}
-
-            <label>Location</label>
-            {{ form.location }}
-
-            <div class="edit-actions">
-                <button type="submit" class="btn-primary">Save Changes</button>
-                <a href="{% url 'profile' request.user.username %}" class="btn-light">
-                    Cancel
-                </a>
-            </div>
-        </form>
-    </div>
+    <label class="upload-btn">
+        Change Photo
+        {{ form.photo }}
+    </label>
 
 </div>
+
+
+    <label>Bio</label>
+    {{ form.bio }}
+
+    <label>Website</label>
+    {{ form.website }}
+
+    <label>Location</label>
+    {{ form.location }}
+
+    <button type="submit" class="save-btn">Save</button>
+</form>
 
 {% endblock %}

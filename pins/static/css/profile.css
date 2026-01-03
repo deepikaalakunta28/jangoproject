@@ -1,0 +1,84 @@
+.profile-wrapper {
+  max-width: 1100px;
+  margin: 25px auto 60px;
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.avatar-circle {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #efefef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0 auto 8px;
+}
+
+.username { font-size: 22px; }
+
+.counts { color: #666; }
+
+.profile-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 12px 0 18px;
+}
+
+.tab-btn {
+  padding: 6px 16px;
+  border-radius: 18px;
+  border: none;
+  background: #e8e8e8;
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  background: #111;
+  color: #fff;
+}
+
+.pin-grid {
+  column-count: 5;
+  column-gap: 12px;
+}
+
+.pin-card {
+  display: block;
+  overflow: hidden;
+  border-radius: 16px;
+  margin-bottom: 12px;
+}
+
+.pin-card img {
+  width: 100%;
+  border-radius: 16px;
+}
+
+.hidden { display: none; }
+
+.empty {
+  text-align: center;
+  color: #777;
+  margin-top: 20px;
+}
+
+.profile-avatar {
+  width: 140px !important;
+  height: 140px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  display: block !important;
+  margin: 10px auto !important;
+}
+
+body {
+  outline: 5px solid red;
+}

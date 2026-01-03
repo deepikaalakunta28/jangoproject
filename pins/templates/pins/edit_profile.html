@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<style>
+.form-card {
+  max-width: 600px;
+  margin: 40px auto;
+  background: white;
+  padding: 25px;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.08);
+}
+
+.form-card h2 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+
+.form-row label {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.form-row input,
+.form-row textarea {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.save-btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 14px;
+  border: none;
+  background: #e60023;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+.save-btn:hover {
+  opacity: .9;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="form-card">
+  <h2>Edit Profile</h2>
+
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="form-row">
+      <label>Photo</label>
+      {{ form.photo }}
+    </div>
+
+    <div class="form-row">
+      <label>Bio</label>
+      {{ form.bio }}
+    </div>
+
+    <div class="form-row">
+      <label>Website</label>
+      {{ form.website }}
+    </div>
+
+    <div class="form-row">
+      <label>Location</label>
+      {{ form.location }}
+    </div>
+
+    <button class="save-btn">Save</button>
+  </form>
+</div>
+
+{% endblock %}

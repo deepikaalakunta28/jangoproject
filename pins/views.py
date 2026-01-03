@@ -8,6 +8,8 @@ from .forms import BoardForm, PinForm
 from boards.models import Board
 from .models import Pin, Comment, Like
 from django.http import JsonResponse
+from profileApp.forms import ProfileForm
+
 
 from django.shortcuts import render
 from .models import Pin
@@ -140,7 +142,9 @@ from .models import Pin
 def pin_detail(request, pin_id):
     pin = get_object_or_404(Pin, id=pin_id)
 
-    user_boards = Board.objects.filter(user=request.user)
+    if request.user.is_authenticated:
+        # Activity.objects.create(user=request.user, pin=pin)
+        user_boards = Board.objects.filter(user=request.user)
 
     other_pins = Pin.objects.filter(
         board=pin.board
@@ -169,6 +173,7 @@ def add_comment(request, pin_id):
                 user=request.user,
                 text=text
             )
+            messages.success(request, "Comment added") 
     return redirect('pin_detail', pin_id=pin_id)
 
 
@@ -206,22 +211,51 @@ def save_pin(request, pin_id):
 
     if request.user in pin.saved_by.all():
         pin.saved_by.remove(request.user)
+        messages.warning(request, "Removed from saved") 
         saved = False
     else:
         pin.saved_by.add(request.user)
+        messages.success(request, "Saved to board!")
         saved = True
 
     return JsonResponse({"saved": saved})
 
 
+from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
+from .models import Pin, Follow   # 👈 make sure Follow is imported
+
+@login_required
 def profile_view(request, username):
-    profile = get_object_or_404(Profile, user__username=username)
-    saved_pins = profile.user.saved_pins.all()  
-    context = {
-        'profile': profile,
-        'saved_pins': saved_pins,
-    }
-    return render(request, 'profile.html', context)
+    profile_user = get_object_or_404(User, username=username)
+
+    created_pins = Pin.objects.filter(user=profile_user)
+    saved_pins = profile_user.saved_pins.all()
+
+    is_following = False
+    if request.user.is_authenticated:
+        is_following = Follow.objects.filter(
+            follower=request.user,
+            following=profile_user
+        ).exists()
+
+    return render(request, "pins/profile.html", {
+        "profile_user": profile_user,
+        "created_pins": created_pins,
+        "saved_pins": saved_pins,
+        "is_following": is_following,   # 👈 pass to template
+    })
+
+
+
+# def profile_view(request, username):
+#     profile = get_object_or_404(Profile, user__username=username)
+#     saved_pins = profile.user.saved_pins.all()  
+#     context = {
+#         'profile': profile,
+#         'saved_pins': saved_pins,
+#     }
+#     return render(request, 'profile.html', context)
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
@@ -232,6 +266,7 @@ def delete_pin(request, pin_id):
 
     if request.method == "POST":
         pin.delete()
+        messages.warning(request, "Pin deleted")
         return redirect("home")
 
     return render(request, "pins/confirm_delete_pin.html", {"pin": pin})
@@ -324,3 +359,58 @@ def move_pin(request, pin_id):
         return redirect("pin_detail", pin_id=pin.id)
 
     return redirect("pin_detail", pin_id=pin.id)
+
+
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404
+from .models import Pin
+
+@login_required
+def profile_view(request, username):
+    profile_user = get_object_or_404(User, username=username)
+
+    created_pins = Pin.objects.filter(user=profile_user)
+    saved_pins = profile_user.saved_pins.all()
+
+    return render(request, "pins/profile.html", {
+        "profile_user": profile_user,
+        "created_pins": created_pins,
+        "saved_pins": saved_pins,
+    })
+
+
+@login_required
+def edit_profile(request):
+    profile = request.user.profile
+
+    if request.method == "POST":
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated")
+            return redirect("profile", username=request.user.username)
+
+    form = ProfileForm(instance=profile)
+    return render(request, "pins/edit_profile.html", {"form": form})
+
+
+@login_required
+def toggle_follow(request, username):
+    target = get_object_or_404(User, username=username)
+
+    follow, created = Follow.objects.get_or_create(
+        follower=request.user, following=target
+    )
+
+    if not created:
+        follow.delete()
+
+    return redirect("profile", username=target.username)
+
+
+
+@login_required
+def recent_activity(request):
+    items = Activity.objects.filter(user=request.user).order_by("-viewed_at")[:20]
+    return render(request, "pins/activity.html", {"items": items})

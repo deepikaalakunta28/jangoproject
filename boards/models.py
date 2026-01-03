@@ -6,6 +6,7 @@ class Board(models.Model):
     description = models.TextField(blank=True)
     is_private = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='boards')
-
+    cover = models.ImageField(upload_to="boards/", null=True, blank=True)
+    
     def __str__(self):
         return self.title

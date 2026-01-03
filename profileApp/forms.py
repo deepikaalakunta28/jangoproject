@@ -1,13 +1,15 @@
 from django import forms
-from .models import UserProfile
+from .models import Profile
 
 class ProfileForm(forms.ModelForm):
-    class Meta:
-        model = UserProfile
-        fields = ["profile_image", "bio", "website", "location"]
+    photo = forms.ImageField(
+        required=False,
+        widget=forms.FileInput(attrs={
+            "class": "profile-photo-input",
+            "accept": "image/*",
+        })
+    )
 
-        widgets = {
-            "bio": forms.Textarea(attrs={"rows": 3}),
-            "website": forms.URLInput(attrs={"placeholder": "https://"}),
-            "location": forms.TextInput(attrs={"placeholder": "City, Country"}),
-        }
+    class Meta:
+        model = Profile
+        fields = ["photo", "bio", "website", "location"]

@@ -92,3 +92,13 @@ def board_detail(request, board_id):
         "board": board,
         "pins": pins
     })
+
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from .models import Board
+
+@login_required
+def boards_page(request):
+    boards = Board.objects.filter(user=request.user)
+    return render(request, "boards/boards_page.html", {"boards": boards})

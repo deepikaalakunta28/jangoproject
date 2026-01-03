@@ -12,6 +12,9 @@
     {% block extra_css %}{% endblock %}
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+
+
 </head>
 
 <body>
@@ -45,13 +48,8 @@
             <i class="fa-solid fa-magnifying-glass search-icon"></i>
 
             <form action="{% url 'search_pins' %}" method="get" class="search-form">
-                <input
-                    type="text"
-                    name="q"
-                    class="search-input"
-                    placeholder="Search for ideas"
-                    value="{{ request.GET.q|default:'' }}"
-                >
+                <input type="text" name="q" class="search-input" placeholder="Search for ideas"
+                    value="{{ request.GET.q|default:'' }}">
             </form>
         </div>
 
@@ -66,6 +64,30 @@
     </main>
 
     {% block extra_js %}{% endblock %}
+
+    {% if messages %}
+    <div class="toast-container">
+        {% for message in messages %}
+        <div class="toast {{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <script>
+        document.querySelectorAll(".toast").forEach(toast => {
+            setTimeout(() => toast.remove(), 3400);
+        });
+    </script>
+    {% if messages %}
+    <div class="toast-container">
+        {% for message in messages %}
+        <div class="toast {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
 </body>
 
 </html>

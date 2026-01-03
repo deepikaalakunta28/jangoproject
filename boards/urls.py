@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import boards_page, board_detail
 
 urlpatterns = [
     path('', views.boards_list, name='boards_list'),
@@ -9,5 +10,7 @@ urlpatterns = [
     path("delete/<int:board_id>/", views.delete_board, name="delete_board"),
     path("delete/<int:board_id>/", views.delete_board, name="delete_board"),
     path("<int:board_id>/", views.board_detail, name="board_detail"),
+    path("", boards_page, name="boards_page"),
+    path("<int:board_id>/", board_detail, name="board_detail"),
 
 ]

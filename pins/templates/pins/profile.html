@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ profile_user.username }} | Profile{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="profile-wrapper">
+
+  <!-- HEADER -->
+  <div class="profile-header">
+
+    <!-- Avatar -->
+    <div class="avatar-circle">
+      {{ profile_user.username|first|upper }}
+    </div>
+
+    <!-- Username + Counts -->
+    <h2 class="username">{{ profile_user.username }}</h2>
+    <p class="counts">
+      {{ created_pins.count }} Created • {{ saved_pins.count }} Saved
+    </p>
+
+    <!-- Bio + Photo (SAFE check to avoid crash if photo missing) -->
+    {% if profile_user.profile.photo %}
+    <img src="{{ profile_user.profile.photo.url }}" class="profile-avatar">
+    {% endif %}
+
+    <p class="bio">
+      {{ profile_user.profile.bio|default:"No bio yet" }}
+    </p>
+
+    <!-- Edit button (only for self) -->
+    {% if request.user == profile_user %}
+      <a href="{% url 'edit_profile' %}" class="edit-btn">Edit Profile</a>
+    {% endif %}
+
+    <!-- ⭐ FOLLOW / UNFOLLOW BUTTON (only when viewing others) -->
+    {% if request.user != profile_user %}
+    <form method="POST" action="{% url 'toggle_follow' profile_user.username %}">
+      {% csrf_token %}
+      <button class="follow-btn">
+        {% if is_following %}
+          Unfollow
+        {% else %}
+          Follow
+        {% endif %}
+      </button>
+    </form>
+    {% endif %}
+
+  </div>
+
+
+  <!-- TABS -->
+  <div class="profile-tabs">
+    <button id="btn-created" class="tab-btn active">Created</button>
+    <button id="btn-saved" class="tab-btn">Saved</button>
+  </div>
+
+  <!-- CREATED -->
+  <div id="section-created" class="pin-grid">
+    {% for pin in created_pins %}
+    <a href="{% url 'pin_detail' pin.id %}" class="pin-card">
+      <img src="{{ pin.image.url }}" alt="{{ pin.title }}">
+    </a>
+    {% empty %}
+      <p class="empty">No created pins yet.</p>
+    {% endfor %}
+  </div>
+
+  <!-- SAVED -->
+  <div id="section-saved" class="pin-grid hidden">
+    {% for pin in saved_pins %}
+    <a href="{% url 'pin_detail' pin.id %}" class="pin-card">
+      <img src="{{ pin.image.url }}" alt="{{ pin.title }}">
+    </a>
+    {% empty %}
+      <p class="empty">No saved pins yet.</p>
+    {% endfor %}
+  </div>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  const createdBtn = document.getElementById("btn-created");
+  const savedBtn = document.getElementById("btn-saved");
+  const createdSec = document.getElementById("section-created");
+  const savedSec = document.getElementById("section-saved");
+
+  createdBtn.onclick = () => {
+    createdBtn.classList.add("active");
+    savedBtn.classList.remove("active");
+    createdSec.classList.remove("hidden");
+    savedSec.classList.add("hidden");
+  };
+
+  savedBtn.onclick = () => {
+    savedBtn.classList.add("active");
+    createdBtn.classList.remove("active");
+    savedSec.classList.remove("hidden");
+    createdSec.classList.add("hidden");
+  };
+</script>
+{% endblock %}

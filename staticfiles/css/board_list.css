@@ -1,0 +1,126 @@
+/* Header */
+.boards-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 6%;
+    background: #fff;
+    border-bottom: 1px solid #e3e3e3;
+}
+
+.boards-header h2 {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+/* Create button */
+.create-board-btn {
+    padding: 10px 22px;
+    background: #e60023;
+    color: #fff;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 6px 15px rgba(230, 0, 35, .35);
+    transition: .25s;
+}
+
+.create-board-btn:hover {
+    background: #ad081b;
+    transform: translateY(-2px);
+}
+
+/* Grid layout */
+.board-grid {
+    padding: 40px 6%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 34px;
+}
+
+/* Card */
+.board-card {
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0,0,0,.08);
+    transition: .28s ease;
+}
+
+.board-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 26px rgba(0,0,0,.18);
+}
+
+/* Cover area */
+.board-cover {
+    height: 185px;
+    background: linear-gradient(130deg,#ffe1e7,#fff1f1,#fff);
+    display: grid;
+    place-items: center;
+    position: relative;
+}
+
+/* Collage preview */
+.collage {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    height: 100%;
+    padding: 4px;
+}
+
+.collage img:first-child {
+    grid-row: span 2;
+    border-radius: 14px 0 0 14px;
+}
+
+.collage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+/* Single image */
+.board-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Empty board */
+.empty-cover {
+    font-size: 14px;
+    color: #777;
+    font-style: italic;
+}
+
+/* Board info */
+.board-info {
+    padding: 16px 18px 18px;
+}
+
+.board-info h3 {
+    margin: 0 0 6px;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.board-info p {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+}
+
+/* Link reset */
+.board-card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.no-boards {
+    padding: 40px;
+    text-align: center;
+    color: #777;
+}

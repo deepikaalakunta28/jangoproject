@@ -1,0 +1,30 @@
+.profile-photo-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile-photo-preview,
+.profile-photo-placeholder {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  overflow: hidden;
+  border: 3px solid #ddd;
+}
+
+.profile-photo-placeholder {
+  background: #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 48px;
+  font-weight: bold;
+}
+
+/* hide raw file input */
+.profile-photo-input {
+  display: none;
+}

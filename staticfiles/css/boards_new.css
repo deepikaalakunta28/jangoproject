@@ -1,0 +1,110 @@
+.boards-wrapper {
+    padding: 30px 6%;
+}
+
+.page-title {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+/* Grid */
+.board-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 24px;
+}
+
+/* Board Card */
+.board-card {
+    display: block;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 10px 22px rgba(0,0,0,.12);
+    overflow: hidden;
+    transition: .25s;
+    cursor: pointer;
+}
+
+.board-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px rgba(0,0,0,.18);
+}
+
+/* Fake preview area */
+.board-cover {
+    height: 150px;
+    background: linear-gradient(135deg,#ffe0e5,#fff5f6);
+}
+
+/* Footer */
+.board-footer {
+    padding: 14px 16px;
+}
+
+.board-footer h3 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.board-footer span {
+    font-size: 13px;
+    color: #777;
+}
+
+/* Create Board Card */
+.create-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #fff7f7;
+    border: 2px dashed #e60023;
+}
+
+.create-card:hover {
+    background: #ffeef0;
+}
+
+.plus-icon {
+    background: #e60023;
+    color: #fff;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    margin-bottom: 8px;
+}
+
+.no-boards-text {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #999;
+}
+
+.create-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-secondary {
+  display: block;
+  text-align: center;
+  padding: 12px;
+  border-radius: 30px;
+  font-weight: 600;
+  border: 2px solid #ddd;
+  background: #fff;
+  color: #333;
+  transition: 0.25s ease;
+}
+
+.btn-secondary:hover {
+  border-color: #e60023;
+  color: #e60023;
+}
