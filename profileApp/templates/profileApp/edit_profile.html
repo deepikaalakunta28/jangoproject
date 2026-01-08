@@ -13,21 +13,20 @@
     {% csrf_token %}
     <div class="profile-photo-wrapper">
 
-    {% if profile.photo %}
+        {% if profile.photo %}
         <img src="{{ profile.photo.url }}" class="profile-photo-preview">
-    {% else %}
+        {% else %}
         <div class="profile-photo-placeholder">
             {{ request.user.username|first|upper }}
         </div>
-    {% endif %}
+        {% endif %}
 
-    <label class="upload-btn">
-        Change Photo
-        {{ form.photo }}
-    </label>
+        <label class="upload-btn">
+            Change Photo
+            {{ form.photo }}
+        </label>
 
-</div>
-
+    </div>
 
     <label>Bio</label>
     {{ form.bio }}

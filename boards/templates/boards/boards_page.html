@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-
 {% block title %}Boards{% endblock %}
-
 {% block content %}
 
 <h2>Your Boards</h2>
@@ -13,10 +11,10 @@
   <a href="{% url 'board_detail' board.id %}" class="board-card">
 
     {% if board.cover %}
-      <img src="{{ board.cover.url }}" class="board-cover">
+    <img src="{{ board.cover.url }}" class="board-cover">
     {% else %}
-      <!-- fallback cover -->
-      <img src="{% static 'images/board-placeholder.jpg' %}" class="board-cover">
+    <!-- fallback cover -->
+    <img src="{% static 'images/board-placeholder.jpg' %}" class="board-cover">
     {% endif %}
 
     <p class="board-title">{{ board.title }}</p>

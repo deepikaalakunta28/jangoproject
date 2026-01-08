@@ -11,21 +11,13 @@ from django.http import JsonResponse
 from profileApp.forms import ProfileForm
 
 
-from django.shortcuts import render
-from .models import Pin
-
 def home(request):
     pins = Pin.objects.all()
     return render(request, "home.html", {"pins": pins})
 
-
-
-# @login_required
-# def home(request):
-#     pins = Pin.objects.filter(user=request.user)  
-#     return render(request, 'home.html', {'pins': pins})
-
+# This function is used to register (create) a new user account.
 def register(request):
+    # the user submitted the registration form.
     if request.method == 'POST':
         username = request.POST.get('username').strip()
         email = request.POST.get('email').strip()
@@ -56,6 +48,7 @@ def register(request):
     return render(request, 'register.html')
 
 def login_user(request):
+    # user submits the login form.
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -83,6 +76,7 @@ def create_board(request):
         form = BoardForm(request.POST)
         if form.is_valid():
             board = form.save(commit=False)
+            # his board belongs to the user who created it.”
             board.user = request.user  
             board.save()
             return redirect('boards_list')
@@ -93,15 +87,11 @@ def create_board(request):
 
 @login_required
 def create_pin(request):
+    # Fetch all boards that belong to the current user.
     boards = Board.objects.filter(user=request.user) 
     if not boards.exists():
         messages.error(request, "You need to create a board first!")
         return redirect('boards_list')
-
-    # if not boards.exists():
-    #     messages.error(request, "You need to create a board first!")
-    #     return redirect('create_board')
-
     if request.method == 'POST':
         form = PinForm(request.POST, request.FILES)
         form.fields['board'].queryset = boards
@@ -117,9 +107,7 @@ def create_pin(request):
     return render(request, 'pins/create_pin.html', {'form': form})
 
 
-# def board_list(request):
-#     boards = Board.objects.all()
-#     return render(request, 'boards/board_list.html', {'boards': boards})
+
 def board_list(request):
     return redirect('boards_list')
 
@@ -141,23 +129,19 @@ from .models import Pin
 
 def pin_detail(request, pin_id):
     pin = get_object_or_404(Pin, id=pin_id)
-
     if request.user.is_authenticated:
         # Activity.objects.create(user=request.user, pin=pin)
         user_boards = Board.objects.filter(user=request.user)
-
     other_pins = Pin.objects.filter(
         board=pin.board
     ).exclude(id=pin.id)[:6]
-
-    # 👇 ADD THIS
     user_liked = pin.likes.filter(user=request.user).exists()
 
     return render(request, "pins/pin_detail.html", {
         "pin": pin,
         "other_pins": other_pins,
         "user_boards": user_boards,
-        "user_liked": user_liked,   # 👈 pass flag
+        "user_liked": user_liked, 
     })
 
 
@@ -184,7 +168,6 @@ from .models import Like
 def toggle_like(request, pin_id):
     pin = get_object_or_404(Pin, id=pin_id)
     user = request.user
-
     like, created = Like.objects.get_or_create(pin=pin, user=user)
 
     if not created:
@@ -197,8 +180,6 @@ def toggle_like(request, pin_id):
         "liked": liked,
         "likes_count": pin.likes.count()
     })
-
-
 
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
@@ -223,7 +204,7 @@ def save_pin(request, pin_id):
 
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
-from .models import Pin, Follow   # 👈 make sure Follow is imported
+from .models import Pin, Follow  
 
 @login_required
 def profile_view(request, username):
@@ -243,19 +224,9 @@ def profile_view(request, username):
         "profile_user": profile_user,
         "created_pins": created_pins,
         "saved_pins": saved_pins,
-        "is_following": is_following,   # 👈 pass to template
+        "is_following": is_following,   
     })
 
-
-
-# def profile_view(request, username):
-#     profile = get_object_or_404(Profile, user__username=username)
-#     saved_pins = profile.user.saved_pins.all()  
-#     context = {
-#         'profile': profile,
-#         'saved_pins': saved_pins,
-#     }
-#     return render(request, 'profile.html', context)
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
@@ -290,14 +261,11 @@ from .forms import PinForm
 @login_required
 def create_pin(request, board_id=None):
     board = None
-
     # If board_id is provided (coming from "Add Pin" button on a board)
     if board_id:
         board = get_object_or_404(Board, id=board_id, user=request.user)
-
     if request.method == "POST":
         form = PinForm(request.POST, request.FILES)
-
         if form.is_valid():
             pin = form.save(commit=False)
             pin.user = request.user
@@ -305,17 +273,13 @@ def create_pin(request, board_id=None):
             # Force-assign to board if opened from board page
             if board:
                 pin.board = board
-
             pin.save()
             return redirect("board_detail", board.id if board else pin.board.id)
-
     else:
         form = PinForm()
-
         # Pre-select the board in dropdown
         if board:
             form.fields["board"].initial = board.id
-
     return render(
         request,
         "pins/create_pin.html",

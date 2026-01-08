@@ -2,112 +2,56 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'profileApp/css/profile.css' %}">
-{% endblock %}
-
 {% block content %}
 
-<div class="profile-header">
+<div class="profile-container">
 
-  <div class="avatar">
-    {% if profile.profile_image %}
-      <img src="{{ profile.profile_image.url }}">
-    {% else %}
-      <span class="avatar-circle">{{ profile_user.username|first|upper }}</span>
-    {% endif %}
-  </div>
+  <div class="profile-header">
 
-  <div class="user-info">
-    <h2>{{ profile_user.username }}</h2>
-    <span>0 following</span>
-
-    <div class="user-details">
-
-      {% if profile.bio %}
-        <p class="bio">{{ profile.bio }}</p>
+    <div class="avatar">
+      {% if profile.photo %}
+        <img src="{{ profile.photo.url }}">
+      {% else %}
+        <div class="avatar-circle">
+          {{ profile_user.username|first|upper }}
+        </div>
       {% endif %}
-
-      {% if profile.location %}
-        <p class="location">📍 {{ profile.location }}</p>
-      {% endif %}
-
-      {% if profile.website %}
-        <a href="{{ profile.website }}" target="_blank" class="website">
-          🔗 {{ profile.website }}
-        </a>
-      {% endif %}
-
     </div>
+
+    <h2>{{ profile_user.username }}</h2>
+
+    {% if request.user == profile_user %}
+      <a href="{% url 'edit_profile' %}" class="edit-btn">Edit Profile</a>
+    {% endif %}
+
   </div>
 
-  {% if request.user == profile_user %}
-    <a href="{% url 'edit_profile' %}" class="edit-btn">Edit Profile</a>
+  <div class="tabs">
+    <a href="?tab=created" class="{% if tab == 'created' %}active{% endif %}">Created</a>
+    <a href="?tab=saved" class="{% if tab == 'saved' %}active{% endif %}">Saved</a>
+  </div>
+
+  {% if tab == "created" %}
+    <h3>Created Pins</h3>
+    <div class="pin-grid">
+      {% for pin in pins %}
+        <img src="{{ pin.image.url }}" class="pin-thumb">
+      {% empty %}
+        <p>No created pins yet.</p>
+      {% endfor %}
+    </div>
+
+  {% elif tab == "saved" %}
+    <h3>Saved Pins</h3>
+    <div class="pin-grid">
+      {% for pin in saved_pins %}
+        <img src="{{ pin.image.url }}" class="pin-thumb">
+      {% empty %}
+        <p>No saved pins yet.</p>
+      {% endfor %}
+    </div>
   {% endif %}
 
 </div>
-
-
-<div class="tabs">
-  <a href="?tab=boards" class="tab {% if tab == 'boards' %}active{% endif %}">Boards</a>
-  <a href="?tab=pins" class="tab {% if tab == 'pins' %}active{% endif %}">Pins</a>
-  <a href="?tab=collages" class="tab {% if tab == 'collages' %}active{% endif %}">Collages</a>
-</div>
-
-
-
-{% if tab == "boards" %}
-
-<h2>Your saved ideas</h2>
-
-<div class="board-grid">
-
-  {% for board in boards %}
-  <div class="board-card">
-    <div class="board-preview">
-      {% if board.pins.count == 0 %}
-        <div class="empty-board"></div>
-      {% else %}
-        {% for pin in board.pins.all|slice:":4" %}
-          <img src="{{ pin.image.url }}">
-        {% endfor %}
-      {% endif %}
-    </div>
-
-    <h4>{{ board.name }}</h4>
-    <span>{{ board.pins.count }} Pins</span>
-  </div>
-  {% empty %}
-    <p>No boards yet.</p>
-  {% endfor %}
-
-  <a href="{% url 'create_board' %}" class="board-card create-card">
-    Create
-  </a>
-
-</div>
-
-
-
-{% elif tab == "pins" %}
-
-<h2>Saved Pins</h2>
-
-<div class="pin-grid">
-  {% for pin in saved_pins %}
-    <img src="{{ pin.image.url }}" class="pin-thumb">
-  {% empty %}
-    <p>No saved pins yet.</p>
-  {% endfor %}
-</div>
-
-
-
-{% else %}
-
-<h2>Collages</h2>
-<p>Coming soon 🙂</p>
-
-{% endif %}
 
 {% endblock %}

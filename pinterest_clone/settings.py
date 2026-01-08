@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'pins',
     'profileApp',
 ]
-
+# c
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -133,3 +133,4 @@ MEDIA_ROOT = BASE_DIR / 'media'
 LOGIN_URL = '/login/'
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
+# collectstatic 

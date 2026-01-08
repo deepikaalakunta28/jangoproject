@@ -6,6 +6,8 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/pindetail.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="{% static 'css/pin_detail.css' %}">
+
 {% endblock %}
 
 {% block content %}
@@ -42,6 +44,43 @@
           <a href="{{ pin.image.url }}" download class="btn-action download-btn">
             <i class="fa-solid fa-download"></i>
           </a>
+          <!-- share -->
+          <div class="share-wrapper">
+            <button class="btn-action share-btn" onclick="openShareMenu()">
+              <i class="fa-solid fa-share-nodes"></i>
+              Share
+            </button>
+
+            <div id="shareMenu" class="share-menu">
+
+              <div class="share-item">
+                <i class="fa-brands fa-whatsapp"></i>
+                <a href="https://wa.me/?text={{ request.build_absolute_uri }}" target="_blank">
+                  WhatsApp
+                </a>
+              </div>
+
+              <div class="share-item">
+                <i class="fa-brands fa-x-twitter"></i>
+                <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}" target="_blank">
+                  Twitter
+                </a>
+              </div>
+
+              <div class="share-item">
+                <i class="fa-brands fa-facebook"></i>
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank">
+                  Facebook
+                </a>
+              </div>
+
+              <div class="share-item" onclick="copyLink()">
+                <i class="fa-solid fa-link"></i>
+                <span>Copy Link</span>
+              </div>
+
+            </div>
+          </div>
 
           <!-- DELETE -->
           {% if request.user.id == pin.user.id %}
@@ -217,5 +256,19 @@
     });
   });
 </script>
+
+<!-- share -->
+<script>
+function openShareMenu() {
+  const menu = document.getElementById("shareMenu");
+  menu.style.display = (menu.style.display === "block") ? "none" : "block";
+}
+
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href);
+  alert("Link copied to clipboard");
+}
+</script>
+
 
 {% endblock %}

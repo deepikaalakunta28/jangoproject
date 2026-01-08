@@ -367,3 +367,59 @@
   border-radius: 8px;
   min-width: 240px;
 }
+
+/* share */
+.share-wrapper {
+  position: relative;
+}
+
+.share-btn {
+  background: #efefef;
+  border-radius: 24px;
+  padding: 8px 14px;
+  font-weight: 600;
+}
+
+.share-menu {
+  position: absolute;
+  top: 42px;
+  right: 0;
+  width: 180px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.12);
+  padding: 10px;
+  display: none;
+  z-index: 10;
+}
+
+.share-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.share-item a,
+.share-item span {
+  text-decoration: none;
+  color: #111;
+  font-size: 14px;
+}
+
+.share-item i {
+  font-size: 18px;
+}
+
+.share-item:hover {
+  background: #f3f3f3;
+}
+
+/* App-like icon colors */
+.share-item:nth-child(1) i { color: #25D366; }   /* WhatsApp */
+.share-item:nth-child(2) i { color: #111; }     /* Twitter/X */
+.share-item:nth-child(3) i { color: #1877F2; }  /* Facebook */
+.share-item:nth-child(4) i { color: #E60023; }  /* Copy */

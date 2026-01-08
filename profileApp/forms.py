@@ -9,7 +9,6 @@ class ProfileForm(forms.ModelForm):
             "accept": "image/*",
         })
     )
-
     class Meta:
         model = Profile
         fields = ["photo", "bio", "website", "location"]

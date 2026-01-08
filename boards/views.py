@@ -6,7 +6,6 @@ from pins.models import Pin
 from django.shortcuts import get_object_or_404
 
 
-
 @login_required
 def boards_list(request):
     boards = Board.objects.filter(user=request.user)  
@@ -41,62 +40,47 @@ def board_detail(request, board_id):
     }
     return render(request, 'boards/board_detail.html', context)
 
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 
 def user_profile(request, username):
     profile_user = get_object_or_404(User, username=username)
-
     if request.user == profile_user:
         boards = Board.objects.filter(user=profile_user)
     else:
         boards = Board.objects.filter(user=profile_user, is_private=False)
-
     return render(request, 'users/profile.html', {
         'profile_user': profile_user,
         'boards': boards
     })
 
-@login_required
-def delete_board(request, board_id):
-    board = get_object_or_404(Board, id=board_id, user=request.user)
 
-    if request.method == "POST":
-        board.delete()
-        return redirect("boards_list")
-
-    return render(request, "boards/confirm_delete_board.html", {"board": board})
-
-from django.shortcuts import get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
-from .models import Board
+# from django.shortcuts import get_object_or_404, redirect
+# from django.contrib.auth.decorators import login_required
+# from .models import Board
 
 @login_required
 def delete_board(request, board_id):
     board = get_object_or_404(Board, id=board_id)
-
     # Allow only owner to delete
     if board.user == request.user:
         board.delete()
-
     return redirect("boards_list")
 
-from django.shortcuts import render, get_object_or_404
-from .models import Board
+# from django.shortcuts import render, get_object_or_404
+# from .models import Board
 
 def board_detail(request, board_id):
     board = get_object_or_404(Board, id=board_id)
-
-    pins = board.pins.all()   # all pins in this board
-
+    pins = board.pins.all()   # get all pins in this board
     return render(request, "boards/board_detail.html", {
         "board": board,
         "pins": pins
     })
 
 
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from .models import Board
+# from django.contrib.auth.decorators import login_required
+# from django.shortcuts import render
+# from .models import Board
 
 @login_required
 def boards_page(request):

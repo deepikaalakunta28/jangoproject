@@ -49,7 +49,7 @@ class Follow(models.Model):
         return f"{self.follower} → {self.following}"
 
 
-class Activity(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    pin = models.ForeignKey(Pin, on_delete=models.CASCADE)
-    viewed_at = models.DateTimeField(auto_now_add=True)
+# class Activity(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     pin = models.ForeignKey(Pin, on_delete=models.CASCADE)
+#     viewed_at = models.DateTimeField(auto_now_add=True)

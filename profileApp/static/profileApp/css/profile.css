@@ -1,23 +1,22 @@
 /* ---------- Page Container ---------- */
 
-.page-wrapper {
+ /* .page-wrapper {
   max-width: 1050px;
   margin: 0 auto;
   padding: 18px 12px 50px;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
-}
+}  */
 
+/* ---------- Profile Header ----------
 
-/* ---------- Profile Header ---------- */
-
-.profile-header {
+/* .profile-header {
   display: flex;
   align-items: center;
   gap: 16px;
   padding: 16px 6px 6px;
-}
+} */
 
-.avatar {
+/* .avatar {
   width: 78px;
   height: 78px;
   border-radius: 50%;
@@ -30,8 +29,8 @@
   color: #444;
   overflow: hidden;
   box-shadow: 0 6px 16px rgba(0,0,0,.08);
-}
-
+} */
+/* 
 .avatar img {
   width: 100%;
   height: 100%;
@@ -64,11 +63,11 @@
 .share-btn:hover {
   background: #f3f3f3;
 }
-
+ */
 
 /* ---------- Tabs ---------- */
 
-.tabs {
+/* .tabs {
   display: flex;
   gap: 22px;
   margin: 10px 4px 14px;
@@ -100,10 +99,10 @@
   margin: 18px auto 8px;
   text-align: center;
 }
-
+ */
 
 /* ---------- Boards Grid (Centered Card Layout) ---------- */
-
+/* 
 .section-wrapper {
   display: flex;
   justify-content: center;
@@ -131,10 +130,10 @@
   transform: translateY(-5px);
   box-shadow: 0 14px 32px rgba(0,0,0,.14);
 }
-
+ */
 
 /* Board Image Preview */
-
+/* 
 .board-preview {
   height: 155px;
   border-radius: 18px;
@@ -157,7 +156,7 @@
 
 /* Board Card Labels */
 
-.board-card h4 {
+/* .board-card h4 {
   margin: 10px 2px 2px;
   font-size: 15px;
   font-weight: 700;
@@ -166,12 +165,12 @@
 .board-card span {
   font-size: 13px;
   color: #777;
-}
+} */ */
 
 
 /* ---------- Create Board Card ---------- */
 
-.create-card {
+/* .create-card {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -183,11 +182,11 @@
 
 .create-card:hover {
   background: #ffe4ea;
-}
+} */
 
 
 /* ---------- Pins Grid ---------- */
-
+/* 
 .pin-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, 210px);
@@ -204,11 +203,11 @@
 
 .pin-thumb:hover {
   transform: scale(1.03);
-}
+} */
 
 
 /* ---------- User Extra Details ---------- */
-
+/* 
 .user-details {
   margin-top: 8px;
   color: #444;
@@ -232,10 +231,10 @@
 
 .website:hover {
   text-decoration: underline;
-}
+} */
 /* -------------------------- */
 /* ---------- Edit Profile Layout ---------- */
-
+/* 
 .edit-wrapper {
   display: flex;
   justify-content: center;
@@ -275,10 +274,10 @@
 .edit-card textarea {
   min-height: 80px;
   resize: none;
-}
+} */
 
 /* Buttons */
-
+/* 
 .edit-actions {
   margin-top: 12px;
   display: flex;
@@ -312,7 +311,7 @@
 
 
 /* round preview */
-.profile-photo-wrapper {
+/* .profile-photo-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -327,25 +326,25 @@
   object-fit: cover;
   overflow: hidden;
   border: 3px solid #ddd;
-}
+} */ */
 
 /* placeholder letter style */
-.profile-photo-placeholder {
+/* .profile-photo-placeholder {
   background: #eee;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 48px;
   font-weight: bold;
-}
+} */
 
 /* hide django clear checkbox */
-input[type="checkbox"][name$="clear"] {
+/* input[type="checkbox"][name$="clear"] {
   display: none;
-}
+} */
 
 /* style upload button */
-.upload-btn {
+/* .upload-btn {
   margin-top: 10px;
   padding: 6px 12px;
   background: #e60023;
@@ -356,4 +355,115 @@ input[type="checkbox"][name$="clear"] {
 
 .profile-photo-input {
   display: none;  /* hide raw input */
+/* } */
+
+/* ---------- Page Container ---------- */
+.profile-container {
+  max-width: 950px;
+  margin: 0 auto;
+  padding: 20px 10px 40px;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+}
+
+
+/* ---------- Profile Header ---------- */
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 6px 6px;
+}
+
+.avatar {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: 700;
+  color: #444;
+  overflow: hidden;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+
+/* ---------- Edit Button ---------- */
+.edit-btn {
+  margin-left: auto;
+  padding: 8px 14px;
+  border-radius: 18px;
+  border: 1px solid #ddd;
+  background: #fff;
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+}
+
+.edit-btn:hover {
+  background: #f2f2f2;
+}
+
+
+/* ---------- Tabs ---------- */
+.tabs {
+  display: flex;
+  gap: 20px;
+  margin: 14px 4px 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.tabs a {
+  padding: 10px 2px 12px;
+  font-size: 13px;
+  color: #666;
+  text-decoration: none;
+}
+
+.tabs a:hover {
+  color: #000;
+}
+
+.tabs a.active {
+  font-weight: 700;
+  color: #000;
+  border-bottom: 2px solid #000;
+}
+
+
+/* ---------- Pin Grid ---------- */
+.pin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 210px);
+  gap: 16px;
+  justify-content: center;
+}
+
+.pin-thumb {
+  width: 100%;
+  border-radius: 14px;
+  box-shadow: 0 6px 14px rgba(0,0,0,.10);
+}
+
+.pin-thumb:hover {
+  transform: scale(1.03);
 }

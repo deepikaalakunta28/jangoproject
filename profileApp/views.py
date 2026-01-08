@@ -9,23 +9,17 @@ from pins.models import Pin
 
 def profile_view(request, username):
     user = get_object_or_404(User, username=username)
-    profile = user.userprofile
-
-    tab = request.GET.get("tab", "boards")   # default tab = boards
-
-    boards = Board.objects.filter(user=user)
+    profile = user.profile   
+    tab = request.GET.get("tab", "created")
     pins = Pin.objects.filter(user=user)
     saved_pins = user.saved_pins.all()
-
-    return render(request, "profileApp/profile.html", {
+    return render(request, "profile/profile.html", {
         "profile_user": user,
         "profile": profile,
-        "boards": boards,
         "pins": pins,
         "saved_pins": saved_pins,
         "tab": tab,
     })
-
 
 
 @login_required

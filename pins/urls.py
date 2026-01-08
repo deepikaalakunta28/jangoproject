@@ -7,8 +7,9 @@ urlpatterns = [
 
     path("login/", views.login_user, name="login"),
     path("logout/", views.logout_user, name="logout"),
-
+    path("pins/create/<int:board_id>/", views.create_pin, name="create_pin"),
     path("pins/create/", views.create_pin, name="create_pin"),
+
     path("create/<int:board_id>/", views.create_pin, name="create_pin_for_board"),
 
     path("pin/<int:pin_id>/", views.pin_detail, name="pin_detail"),
